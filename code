@@ -1,0 +1,525 @@
+import tkinter as tk
+
+# --- Character Data --- #
+
+class Character:
+    def __init__(self, name, role, abilities):
+        self.name = name
+        self.role = role
+        self.abilities = abilities
+
+heroes_by_role = {
+    "Tank": [
+Character("D.Va", "Tank", {
+            "Fusion Cannons": {"type": "damage", "value": 22, "shots": 999, "rate": 6.667, "reload": 0,
+                                        "can_crit": True},
+"Light Gun": {"type": "damage", "value": 14, "shots": 20, "rate": 7, "reload": 1.4,
+                                        "can_crit": True},
+            "Boosters": {"type": "ability", "value": 25, "cooldown": 3.5},
+            "Micro Missiles": {"type": "abiltity", "value": 153, "cooldown": 7, "charges": 1, "can_crit": False},
+            "Self-Destruct": {"type": "ability", "value": 1000, "cooldown": 8},
+            "Call Mech": {"type": "ability", "value": 250, "cooldown": 60},
+}),
+Character("Junker Queen", "Tank", {
+            "Scattergun": {"type": "damage", "value": 80, "shots": 8, "rate":1.33, "reload": 1.5,
+                                        "can_crit": True},
+            "Jagged Blade MAX": {"type": "ability", "value": 110, "cooldown": 6},
+            "Carnage": {"type": "ability", "value": 145, "cooldown": 8, "charges": 1, "can_crit": False},
+            "Rampage 1P": {"type": "ability", "value": 110, "cooldown": 60},
+}),
+        Character("Orisa", "Tank", {
+            "Augmented Fusion Driver": {"type": "damage", "value": 14, "shots": 999, "rate": 10, "reload": 2,
+                                        "can_crit": True},
+            "Energy Javelin Collison": {"type": "ability", "value": 110, "cooldown": 6},
+            "Energy Javelin No Collision": {"type": "ability", "value": 70, "cooldown": 6},
+            "Javelin Spin 1 Hit": {"type": "ability", "value": 20, "cooldown": 8, "charges": 1, "can_crit": False},
+            "Javelin Spin Max Hit": {"type": "ability", "value": 100, "cooldown": 8},
+            "Terra Surge 1P MAX": {"type": "ability", "value": 500, "cooldown": 60},
+
+        }),
+        Character("Reinhardt", "Tank", {
+
+            "Rocket Hammer": {"type": "damage", "value": 100, "shots": 999, "rate": 1.04, "reload": 0, "can_crit": False},
+            "Charge on Wall": {"type": "ability", "value": 300, "cooldown": 7},
+            "Charge no Wall": {"type": "ability", "value": 50, "cooldown": 7},
+            "Fire Strike": {"type": "ability", "value": 120, "cooldown": 6, "charges": 2, "can_crit": False},
+            "Earth Shatter Close": {"type": "ability", "value": 150, "cooldown": 60},
+            "Earth Shatter Far": {"type": "ability", "value": 50, "cooldown": 60},
+        }),
+Character("Zarya", "Tank", {
+
+            "Paricle Cannon 0%": {"type": "damage", "value": 95, "shots": 100, "rate": 20, "reload": 1.5, "can_crit": False},
+"Paricle Cannon 100%": {"type": "damage", "value": 190, "shots": 100, "rate": 20, "reload": 1.5, "can_crit": False},
+"Paricle Cannon Alt Fire 0%": {"type": "damage", "value": 55, "shots": 4, "rate": 1, "reload": 1.5, "can_crit": False},
+"Paricle Cannon Alt Fire 100%": {"type": "damage", "value": 110, "shots": 4, "rate": 1, "reload": 1.5, "can_crit": False},
+            "Graviton Surge": {"type": "ability", "value": 20, "cooldown": 60},
+        }),
+
+    ],
+    "Damage": [
+Character("Ashe", "Damage", {
+            "The Viper": {
+                "type": "damage", "value": 35, "shots": 12, "rate": 3.9, "reload": 3.5, "can_crit": True
+            },
+             "The Viper ADS": {
+                "type": "damage", "value": 75, "shots": 12, "rate": 3.9, "reload": 3.5, "can_crit": True
+            },
+            "Dynamite 1P": {"type": "ability", "value": 150, "cooldown": 12},
+    "Coach Gun 1P": {"type": "ability", "value": 90, "cooldown": 10},
+            "B.O.B.": {"type": "ability", "value": 1326, "cooldown": 60},
+        }),
+Character("Cassidy", "Damage", {
+            "Peacekeeper (Primary Fire)": {
+                "type": "damage", "value": 70, "shots": 6, "rate": 2, "reload": 1.5, "can_crit": True
+            },
+            "Peacekeeper (Fan the Hammer)": {
+                "type": "damage", "value": 55, "shots": 6, "duration": 1.5, "can_crit": True,
+                "uses_attack_speed": True
+            },
+            "Flashbang": {"type": "ability", "value": 75, "cooldown": 12},
+            "Deadeye": {"type": "ability", "value": 1800, "cooldown": 60},
+            "Combat Roll": {"type": "utility", "cooldown": 6, "grants_reload": True}
+        }),
+Character("Freja", "Damage", {
+            "Revdraw Crossbow": {
+                "type": "damage", "value": 30, "shots": 12, "rate": 4.81, "reload": 1.6, "can_crit": True
+            },
+            "Take Aim": {
+                "type": "damage", "value": 110, "shots": 1, "duration": 1.5, "can_crit": True,
+                "uses_attack_speed": True
+            },
+            "Bola Shot 1P": {"type": "ability", "value": 115, "cooldown": 60},
+        }),
+Character("Genji", "Damage", {
+            "Shuriken": {
+                "type": "damage", "value": 92.05, "shots": 8, "rate": 2, "reload": 1.5, "can_crit": True
+            },
+            "Shuriken Alt Fire": {
+                "type": "damage", "value": 119.12, "shots": 8, "rate": 2, "reload": 1.5, "can_crit": True
+            },
+            "Swift Strike 1P": {"type": "ability", "value": 50, "cooldown": 8},
+            "Dragonblade": {"type": "ability", "value": 948.3, "cooldown": 60},
+        }),
+Character("Mei", "Damage", {
+    "Endothermic Blaster 1P": {
+        "type": "ability", "value": 5, "shots": 140, "rate": 20, "reload": 1.5, "can_crit": False
+    },
+    "Endothermic Blaster Alt Fire": {
+        "type": "ability", "value": 85, "shots": 14, "rate": 0.8, "reload": 1.5, "can_crit": True
+    },
+    "Blizzard 1P": {
+        "type": "ability", "value": 85, "cooldown": 60
+    }
+}),
+
+Character("Reaper", "Damage", {
+    "Hellfire Shotguns": {
+        "type": "damage", "value": 108, "shots": 8, "rate": 2, "reload": 1.5, "can_crit": True
+    },
+    "Death Blossom 1P": {
+        "type": "ability", "value": 185, "duration": 3, "cooldown": 60
+    }
+}),
+
+        Character("Soldier: 76", "Damage", {
+            "Heavy Pulse Rifle": {
+                "type": "damage", "value": 19, "shots": 30, "rate": 9, "reload": 1.5, "can_crit": True
+            },
+            "Helix Rockets": {"type": "ability", "value": 120, "cooldown": 6},
+            "Biotic Field": {"type": "healing", "value": 40, "duration": 5, "cooldown": 15},
+            "Tactical Visor": {"type": "ability", "value": 180, "duration": 6, "cooldown": 60},
+        }),
+    ],
+    "Support": [
+Character("Ana", "Damage", {
+            "Biotic Rifle": {
+                "type": "damage", "value": 75, "shots": 15, "rate": 0.8, "reload": 1.5, "can_crit": False
+            },
+            "Sleep Dart": {"type": "ability", "value": 5, "cooldown": 14},
+            "Biotic Grenade": {"type": "ability", "value": 75, "duration": 3, "cooldown": 14},
+        }),
+Character("Juno", "Damage", {
+            "Mediblaster Healing": {
+                "type": "healing", "value": 72, "shots": 180, "rate": 9, "reload": 1.8, "can_crit": False
+            },
+"Mediblaster Damage": {
+                "type": "damage", "value": 90, "shots": 180, "rate": 9, "reload": 1.8, "can_crit": False
+            },
+            "Pulsar Torpedoes Healing": {"type": "ability", "value": 135, "cooldown": 10},
+            "Pulsar Torpedoes Damage": {"type": "ability", "value": 85, "cooldown": 10},
+            "Orbital Ray": {"type": "ability", "value": 85, "duration": 8, "cooldown": 60},
+        }),
+Character("Kiriko", "Damage", {
+            "Healing Ofuda": {
+                "type": "healing", "value": 26, "shots": 5, "rate": 1.7, "reload": 0.9, "can_crit": False
+            },
+"Kunai": {
+                "type": "damage", "value": 60, "shots": 15, "rate": 0.5, "reload": 1, "can_crit": False
+            },
+            "Protection Suzu Cleanse H": {"type": "ability", "value": 110, "cooldown": 14},
+        }),
+Character("Lucio", "Damage", {
+            "Sonic Amplifier": {
+                "type": "damage", "value": 22, "shots": 20 , "rate": 4.32 , "reload": 1.5, "can_crit": True
+            },
+            "Soundwave": {"type": "ability", "value": 45, "cooldown": 4},
+            "Crossfade Ally Healing": {"type": "ability", "value": 16, "cooldown":0},
+    "Crossfade Self Healing": {"type": "ability", "value": 11.4, "cooldown": 0},
+"Amp It Up": {"type": "ability", "value": 52, "duration": 3,  "cooldown": 12},
+            "Sound Barrier": {"type": "ability", "value": 750, "duration": 6, "cooldown": 60},
+        }),
+Character("Mercy", "Damage", {
+            "Caduceus Staff Healing": {
+                "type": "healing", "value": 60, "rate": 1, "reload": 0, "can_crit": False
+            },
+"Caduceus Blaster": {
+                "type": "damage", "value": 20, "rate": 5, "reload": 1.4, "can_crit": True
+            },
+            "Valkyrie": {"type": "ability", "value": 65, "duration": 15, "cooldown": 60},
+        }),
+        Character("Moira", "Support", {
+            "Biotic Grasp (Heal)": {"type": "healing", "value": 70, "ammo_per_sec": 20, "max_ammo": 156, "regen": 3.744},
+           "Biotic Grasp (Damage)": {"type": "damage", "value": 50, "rate": 1},
+            "Biotic Orb (Heal)": {"type": "ability", "value": 65, "duration": 7, "cooldown": 8},
+            "Biotic Orb (Damage)": {"type": "ability", "value": 50, "duration": 7, "cooldown": 8},
+            "Coalescence": {"type": "hybrid", "ability": 85, "healing": 140, "duration": 8, "cooldown": 60},
+        }),
+    ]
+}
+
+# --- Main Application --- #
+
+class OverwatchApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Overwatch Ability Calculator")
+        self.attributes('-fullscreen', True)
+        self.configure(bg="#101010")
+
+        self.selected_role = None
+        self.selected_character = None
+
+        self.stats = {
+            "Attack Power": 0.0,
+            "Attack Speed": 0.0,
+            "Cooldown Reduction": 0.0,
+            "Ability Power": 0.0,
+            "Accuracy %": 100.0,
+            "Headshot %": 0.0,
+        }
+
+        self.broadcast_stat = None
+
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.role_frame = tk.Frame(self, bg="#101010")
+        self.hero_frame = tk.Frame(self, bg="#101010")
+        self.calc_frame = tk.Frame(self, bg="#101010")
+        self.build_role_screen()
+
+    def clear_frames(self):
+        for frame in [self.role_frame, self.hero_frame, self.calc_frame]:
+            for widget in frame.winfo_children():
+                widget.destroy()
+            frame.pack_forget()
+
+    def build_role_screen(self):
+        self.clear_frames()
+        self.role_frame.pack(expand=True)
+
+        tk.Label(self.role_frame, text="Select a Role", font=("Arial", 20), fg="white", bg="#101010").pack(pady=10)
+        for role in ["Tank", "Damage", "Support"]:
+            tk.Button(self.role_frame, text=role, font=("Arial", 14),
+                      command=lambda r=role: self.build_hero_screen(r),
+                      bg="#202020", fg="white", width=20).pack(pady=5)
+        tk.Button(self.role_frame, text="Exit", font=("Arial", 14),
+                  bg="#600000", fg="white", width=20, command=self.quit).pack(pady=30)
+
+    def build_hero_screen(self, role):
+        self.clear_frames()
+        self.selected_role = role
+        self.hero_frame.pack(expand=True)
+
+        tk.Label(self.hero_frame, text=f"{role} Heroes", font=("Arial", 18), fg="white", bg="#101010").pack(pady=10)
+        for hero in heroes_by_role[role]:
+            tk.Button(self.hero_frame, text=hero.name,
+                      command=lambda h=hero: self.build_calc_screen(h),
+                      bg="#202020", fg="white", font=("Arial", 13), width=25).pack(pady=3)
+        tk.Button(self.hero_frame, text="Back", command=self.build_role_screen,
+                  bg="#303030", fg="white", font=("Arial", 12)).pack(pady=20)
+
+    def build_calc_screen(self, character):
+        self.clear_frames()
+        self.selected_character = character
+        self.calc_frame.pack(fill="both", expand=True, padx=30, pady=30)
+
+        title = tk.Label(self.calc_frame, text=f"{character.name} - {character.role}",
+                         font=("Arial", 22, "bold"), fg="white", bg="#101010")
+        title.pack(pady=(0, 20))
+
+        btn_frame = tk.Frame(self.calc_frame, bg="#101010")
+        btn_frame.pack(fill="x", pady=(0, 10))
+
+        tk.Button(btn_frame, text="← Back", command=lambda: self.build_hero_screen(self.selected_role),
+                  bg="#303030", fg="white", font=("Arial", 12), width=10).pack(side="left")
+        tk.Button(btn_frame, text="Calculate", command=self.update_all_displays,
+                  bg="#204020", fg="white", font=("Arial", 12), width=10).pack(side="right")
+
+        container = tk.Frame(self.calc_frame, bg="#101010")
+        container.pack(fill="both", expand=True)
+
+        # Broadcast controls frame (above middle panel)
+        broadcast_frame = tk.Frame(container, bg="#101010")
+        broadcast_frame.grid(row=0, column=0, columnspan=5, pady=(0,10), sticky="ew")
+        broadcast_frame.grid_columnconfigure(1, weight=1)
+
+        tk.Label(broadcast_frame, text="Under Development:", fg="white", bg="#101010").grid(row=0, column=0, sticky="w")
+        self.broadcast_var = tk.StringVar(value="")
+        self.broadcast_entry = tk.Entry(broadcast_frame, textvariable=self.broadcast_var, font=("Arial", 12))
+        self.broadcast_entry.grid(row=0, column=1, sticky="ew", padx=5)
+        self.broadcast_var.trace_add("write", self.on_broadcast_change)
+
+        self.broadcast_enabled_var = tk.IntVar(value=0)
+        self.broadcast_check = tk.Checkbutton(broadcast_frame, text="Under Development:", fg="white", bg="#101010",
+                                              variable=self.broadcast_enabled_var, command=self.update_all_displays)
+        self.broadcast_check.grid(row=0, column=2, sticky="e")
+
+        stats_labels = [
+            ("Attack Power Only", "Attack Power"),
+            ("Attack Speed Only", "Attack Speed"),
+            ("Full Stats (mixed)", None),
+            ("Cooldown Reduction Only", "Cooldown Reduction"),
+            ("Ability Power Only", "Ability Power"),
+        ]
+
+        self.panels = []
+        for i in range(5):
+            panel = tk.Frame(container, bg="#101010", highlightbackground="white", highlightthickness=1, padx=10, pady=10)
+            panel.grid(row=1, column=i, sticky="nsew", padx=5, pady=5)
+            container.grid_columnconfigure(i, weight=1)
+            container.grid_rowconfigure(1, weight=1)
+            tk.Label(container, text=stats_labels[i][0], font=("Arial", 12),
+                     fg="white", bg="#101010", wraplength=150, justify="center").grid(row=2, column=i, pady=(5, 0), sticky="ew")
+            self.panels.append(panel)
+
+        # Middle panel entries (full editable stats)
+        self.middle_entries = {}
+        for stat in self.stats:
+            frame = tk.Frame(self.panels[2], bg="#101010")
+            frame.pack(fill="x", pady=4)
+            tk.Label(frame, text=stat, font=("Arial", 10), fg="white", bg="#101010").pack(side="left")
+            var = tk.StringVar(value=str(self.stats[stat]))
+            entry = tk.Entry(frame, textvariable=var, font=("Arial", 10), width=8, justify="right")
+            entry.pack(side="right")
+            self.middle_entries[stat] = var
+            var.trace_add("write", self.on_middle_change)
+
+        # Text widgets for side panels and full panel
+        self.side_texts = []
+        for i in [0, 1, 3, 4]:
+            text_widget = tk.Text(self.panels[i], height=25, bg="#202020", fg="white", state="disabled")
+            text_widget.pack(fill="both", expand=True)
+            self.side_texts.append(text_widget)
+
+        self.full_text = tk.Text(self.panels[2], height=15, bg="#202020", fg="white", state="disabled")
+        self.full_text.pack(fill="both", expand=True, pady=(10, 0))
+
+        self.update_all_displays()
+
+    def on_middle_change(self, *args):
+        # Validate entries to floats or default to 0
+        for stat, var in self.middle_entries.items():
+            try:
+                val = float(var.get())
+                self.stats[stat] = val
+            except ValueError:
+                self.stats[stat] = 0.0
+        self.update_all_displays()
+
+    def on_broadcast_change(self, *args):
+        text = self.broadcast_var.get().strip()
+        if text in self.stats:
+            self.broadcast_stat = text
+            self.broadcast_enabled_var.set(1)
+
+            # Disable and clear center panel inputs
+            for var in self.center_vars.values():
+                var.set("")
+            for entry in self.center_entries.values():
+                entry.config(state="disabled")
+        else:
+            self.broadcast_stat = None
+            self.broadcast_enabled_var.set(0)
+
+            # Re-enable center panel inputs
+            for entry in self.center_entries.values():
+                entry.config(state="normal")
+
+        self.update_all_displays()
+
+    def update_all_displays(self):
+        # If broadcast is enabled, override stats with only the broadcast stat
+        if self.broadcast_enabled_var.get() and self.broadcast_stat:
+            for stat in self.middle_entries:
+                if stat == self.broadcast_stat:
+                    val = self.middle_entries[stat].get()
+                    try:
+                        self.stats[stat] = float(val)
+                    except ValueError:
+                        self.stats[stat] = 0.0
+                else:
+                    self.stats[stat] = 0.0
+        else:
+            # Otherwise, sync from middle entries normally
+            for stat, var in self.middle_entries.items():
+                try:
+                    self.stats[stat] = float(var.get())
+                except ValueError:
+                    self.stats[stat] = 0.0
+
+        # Compute the total sum of all stats from main panel (except Accuracy and Headshot which remain fixed)
+        total_stats = {
+            "Attack Power": self.stats["Attack Power"],
+            "Attack Speed": self.stats["Attack Speed"],
+            "Cooldown Reduction": self.stats["Cooldown Reduction"],
+            "Ability Power": self.stats["Ability Power"],
+        }
+
+        # Function to create modified stats dict for a given side panel stat focus
+        def modified_stats(focus_stat):
+            if self.broadcast_enabled_var.get() and self.broadcast_stat:
+                # Broadcast mode: all stats zero except the broadcast stat uses its main panel value
+                base_val = self.stats[self.broadcast_stat]
+                result = {k: 0.0 for k in total_stats}
+                if self.broadcast_stat in result:
+                    result[self.broadcast_stat] = base_val
+                return result
+            else:
+                # Normal mode:
+                stat_sum = sum(total_stats.values())
+                if focus_stat is None:
+                    # Full stats from main panel
+                    return total_stats
+                else:
+                    # Apply total sum only to the focused stat, others zero
+                    return {k: (stat_sum if k == focus_stat else 0.0) for k in total_stats}
+
+        # Prepare the 5 sets of stats for each panel:
+        # Left, mid-left, center, mid-right, right
+        stats_sets = [
+            modified_stats("Attack Power"),
+            modified_stats("Attack Speed"),
+            modified_stats(None),
+            modified_stats("Cooldown Reduction"),
+            modified_stats("Ability Power"),
+        ]
+
+        # Update side panel texts
+        for i, stat_set in enumerate(stats_sets):
+            if i == 2:
+                continue  # Skip middle (full) panel here
+            self.update_text_widget(self.side_texts[i if i < 2 else i - 1], stat_set)
+
+        # Update full middle panel text below entries
+        self.update_full_text(self.full_text, stats_sets[2])
+
+    def update_text_widget(self, widget, stat_set):
+        widget.config(state="normal")
+        widget.delete("1.0", tk.END)
+
+        # For the currently selected character, display abilities' damage and healing per minute
+        if not self.selected_character:
+            widget.insert(tk.END, "No character selected.\n")
+            widget.config(state="disabled")
+            return
+
+        char = self.selected_character
+
+        widget.insert(tk.END, "Abilities DPS/DPM with stats:\n")
+        widget.insert(tk.END, f"{'Ability':25} {'Per Hit':>8} {'DPS':>10} {'DPM':>10}\n")
+        widget.insert(tk.END, "-" * 55 + "\n")
+
+        for name, ability in char.abilities.items():
+            dpm, dps, per_hit = self.calculate_ability_dps(ability, stat_set)
+            widget.insert(tk.END, f"{name[:25]:25} {per_hit:8.1f} {dps:10.1f} {dpm:10.1f}\n")
+
+        widget.config(state="disabled")
+
+    def update_full_text(self, widget, stat_set):
+        widget.config(state="normal")
+        widget.delete("1.0", tk.END)
+
+        widget.insert(tk.END, "Full Stats View\n")
+        for k, v in stat_set.items():
+            widget.insert(tk.END, f"{k}: {v:.2f}\n")
+
+        widget.insert(tk.END, "\nAbilities DPS/DPM with mixed stats:\n")
+        widget.insert(tk.END, f"{'Ability':25} {'Per Hit':>8} {'DPS':>10} {'DPM':>10}\n")
+        widget.insert(tk.END, "-" * 55 + "\n")
+
+        if not self.selected_character:
+            widget.insert(tk.END, "No character selected.\n")
+        else:
+            for name, ability in self.selected_character.abilities.items():
+                dpm, dps, per_hit = self.calculate_ability_dps(ability, stat_set)
+                widget.insert(tk.END, f"{name[:25]:25} {per_hit:8.1f} {dps:10.1f} {dpm:10.1f}\n")
+
+        widget.config(state="disabled")
+
+    def calculate_ability_dps(self, ability, stats):
+        # Simplified example calculation:
+
+        # Base damage or healing per hit
+        base_val = ability.get("value", 0)
+        per_hit = base_val
+
+        # Apply Attack Power for damage, Ability Power for healing (simplified)
+        if ability.get("type") == "healing":
+            # Hybrid ability: average of damage and healing scaling
+            dmg = base_val * (1 + stats.get("Attack Power", 0) / 100)
+            ass = base_val * (1 + stats.get("attack speed", 0) / 100)
+            per_hit = (dmg + ass) / 2
+        elif ability.get("type") == "damage":
+            # Hybrid ability: average of damage and healing scaling
+            dmg = base_val * (1 + stats.get("Attack Power", 0) / 100)
+            ass = base_val * (1 + stats.get("Attack Speed", 0) / 100)
+            per_hit = (dmg + ass) / 2
+        elif ability.get("type") == "ability":
+            # Hybrid ability: average of damage and healing scaling
+            ap = base_val * (1 + stats.get("Ability Power", 0) / 100)
+            cdr = base_val * (1 + stats.get("Cooldown Reduction", 0) / 100)
+            per_hit = (ap + cdr) / 2
+
+
+
+        # Shots per second or rate
+        if "rate" in ability:
+            rate = ability["rate"]
+            # Adjust rate by attack speed (e.g. 10 means 10 shots per second)
+            rate *= (1 + stats.get("Attack Speed", 0) / 100)
+            dps = per_hit * rate
+            # Handle reloads reducing effective DPS:
+            reload_time = ability.get("reload", 0)
+            shots = ability.get("shots", 1)
+            if reload_time > 0 and shots > 0:
+                cycle_time = shots / rate + reload_time
+                dps = per_hit * shots / cycle_time
+            dpm = dps * 60
+        elif "cooldown" in ability:
+            cd = ability["cooldown"]
+            # Cooldown reduced by cooldown reduction stat
+            cd = cd / (1 + stats.get("Cooldown Reduction", 0) / 100)
+            dpm = per_hit * 60 / cd if cd > 0 else per_hit * 60
+            dps = dpm / 60
+        else:
+            # Single use ability or unknown; just show per hit, dps=dpm=0
+            dps = 0
+            dpm = 0
+
+        return dpm, dps, per_hit
+
+
+if __name__ == "__main__":
+    app = OverwatchApp()
+    app.mainloop()
